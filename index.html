@@ -1,16 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./style.css">
 </head>
-<body>
-    <header>
-        Time
+
+<body class="flex-col">
+    <header class="header flex-row">
+        <div class="funny-title">
+            The Great Coding Quiz of Mr. Steven Hanson
+        </div>
+        <div id="timer" class="timer">
+            Timer: 60 
+        </div>
     </header>
-    <div>
-        Timels
+    <div id="container" class="flex-col container">
+        <div id="title" class="flex-row box-heading">
+            The Coding Quiz
+        </div>
+        <button id="start-button" class="start-button">
+            Begin
+        </button>
     </div>
+    <script src="./script.js"></script>
 </body>
+
 </html>
