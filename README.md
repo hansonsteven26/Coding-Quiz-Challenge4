@@ -15,4 +15,4 @@ High scores table is dysfunctional in that it doesn't save your score when you n
 ![Game Over](./Assets/GameOver.png)
 
 ## Link
-[Coding Quiz]
+[Coding Quiz](https://hansonsteven26.github.io/Coding-Quiz-Challenge4/)
