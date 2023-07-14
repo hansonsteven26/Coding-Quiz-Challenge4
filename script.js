@@ -20,6 +20,9 @@ let questionThreeButtonTwo = document.createElement("button");
 let questionFourButtonOne = document.createElement("button");
 let questionFourButtonTwo = document.createElement("button");
 
+let initialsTextInput = document.createElement("input");
+let submitButton = document.createElement("button");
+
 let quiz = {
     questionOne: {
         question: "How many equal signs do you use when you are assigning?",
@@ -47,13 +50,14 @@ let quiz = {
         question: "True or False: jQuery is an API",
         answerOne: "True",
         answerTwo: "False"
-    }    
+    }
 }
 
 let secondsLeft = 0;
 let timerInterval = 0;
+let score = 0;
 
-startButtonEl.addEventListener("click", function() {
+startButtonEl.addEventListener("click", function () {
     setTime();
     startButtonEl.setAttribute("style", "display: none");
     titleEl.setAttribute("style", "width: 50%");
@@ -61,8 +65,8 @@ startButtonEl.addEventListener("click", function() {
 })
 
 function setTime() {
-    secondsLeft = 60;
-    timerInterval = setInterval(function() {
+    secondsLeft = 40;
+    timerInterval = setInterval(function () {
         secondsLeft--;
         timerTextEl.textContent = "Timer: " + secondsLeft;
 
@@ -106,7 +110,7 @@ retryButton.addEventListener("click", function () {
 // Display the first question
 function displayQuestionOne() {
     titleEl.textContent = quiz.questionOne.question;
-    
+
     // Change the text of all the buttons to the multiple choice answers
     questionOneButtonOne.textContent = quiz.questionOne.answerOne;
     questionOneButtonTwo.textContent = quiz.questionOne.answerTwo;
@@ -127,7 +131,7 @@ function displayQuestionOne() {
 
     // Go to the next question when an answer is clicked
     // Also give feedback, saying "correct" or "incorrect"
-    questionOneButtonOne.onclick = function() {
+    questionOneButtonOne.onclick = function () {
         secondsLeft -= 10;
         displayQuestionTwo();
         answerIncorrectly();
@@ -136,15 +140,16 @@ function displayQuestionOne() {
         questionOneButtonThree.setAttribute("style", "display: none")
         questionOneButtonFour.setAttribute("style", "display: none")
     }
-    questionOneButtonTwo.onclick = function() {
+    questionOneButtonTwo.onclick = function () {
         displayQuestionTwo();
         answerCorrectly();
+        score++;
         questionOneButtonOne.setAttribute("style", "display: none")
         questionOneButtonTwo.setAttribute("style", "display: none")
         questionOneButtonThree.setAttribute("style", "display: none")
         questionOneButtonFour.setAttribute("style", "display: none")
     }
-    questionOneButtonThree.onclick = function() {
+    questionOneButtonThree.onclick = function () {
         secondsLeft -= 10;
         displayQuestionTwo();
         answerIncorrectly();
@@ -153,7 +158,7 @@ function displayQuestionOne() {
         questionOneButtonThree.setAttribute("style", "display: none")
         questionOneButtonFour.setAttribute("style", "display: none")
     }
-    questionOneButtonFour.onclick = function() {
+    questionOneButtonFour.onclick = function () {
         secondsLeft -= 10;
         displayQuestionTwo();
         answerIncorrectly();
@@ -188,7 +193,7 @@ function displayQuestionTwo() {
 
     // Go to the next question when an answer is clicked
     // Also give feedback, saying "correct" or "incorrect"
-    questionTwoButtonOne.onclick = function() {
+    questionTwoButtonOne.onclick = function () {
         secondsLeft -= 10;
         displayQuestionThree();
         answerIncorrectly();
@@ -197,15 +202,16 @@ function displayQuestionTwo() {
         questionTwoButtonThree.setAttribute("style", "display: none")
         questionTwoButtonFour.setAttribute("style", "display: none")
     }
-    questionTwoButtonTwo.onclick = function() {
+    questionTwoButtonTwo.onclick = function () {
         displayQuestionThree();
         answerCorrectly();
+        score++;
         questionTwoButtonOne.setAttribute("style", "display: none")
         questionTwoButtonTwo.setAttribute("style", "display: none")
         questionTwoButtonThree.setAttribute("style", "display: none")
         questionTwoButtonFour.setAttribute("style", "display: none")
     }
-    questionTwoButtonThree.onclick = function() {
+    questionTwoButtonThree.onclick = function () {
         secondsLeft -= 10;
         displayQuestionThree();
         answerIncorrectly();
@@ -214,7 +220,7 @@ function displayQuestionTwo() {
         questionTwoButtonThree.setAttribute("style", "display: none")
         questionTwoButtonFour.setAttribute("style", "display: none")
     }
-    questionTwoButtonFour.onclick = function() {
+    questionTwoButtonFour.onclick = function () {
         secondsLeft -= 10;
         displayQuestionThree();
         answerIncorrectly();
@@ -243,16 +249,17 @@ function displayQuestionThree() {
 
     // Go to the next question when an answer is clicked
     // Also give feedback, saying "correct" or "incorrect"
-    questionThreeButtonOne.onclick = function() {
+    questionThreeButtonOne.onclick = function () {
         secondsLeft -= 10;
         displayQuestionFour();
         answerIncorrectly();
         questionThreeButtonOne.setAttribute("style", "display: none")
         questionThreeButtonTwo.setAttribute("style", "display: none")
     }
-    questionThreeButtonTwo.onclick = function() {
+    questionThreeButtonTwo.onclick = function () {
         displayQuestionFour();
         answerCorrectly();
+        score++;
         questionThreeButtonOne.setAttribute("style", "display: none")
         questionThreeButtonTwo.setAttribute("style", "display: none")
     }
@@ -276,23 +283,58 @@ function displayQuestionFour() {
 
     // Go to the end of the game
     // Give feedback, saying "correct" or "incorrect"
-    questionFourButtonOne.onclick = function() {
+    questionFourButtonOne.onclick = function () {
+        score++;
         displayEndCard();
         answerCorrectly();
     }
-    questionFourButtonTwo.onclick = function() {
-        // displayQuestionFour();
+    questionFourButtonTwo.onclick = function () {
+        displayEndCard();
         answerIncorrectly();
         secondsLeft -= 10;
     }
 }
 
 function displayEndCard() {
+    // Stop the timer
     clearInterval(timerInterval);
+    // Hide the buttons from question four
     questionFourButtonOne.setAttribute("style", "display: none");
     questionFourButtonTwo.setAttribute("style", "display: none");
-    titleEl.textContent = "You did it! You earned " + secondsLeft;
+    // Display submit button and input field
+    if (score == 4) {
+        titleEl.textContent = "WOW! You got them all right!. Submit your initials";
+    } else if (score == 3) {
+        titleEl.textContent = "Good job! You got " + score + " out of 4. Submit your initials";
+    } else if (score == 2) {
+        titleEl.textContent = "You finished. You got " + score + " out of 4. Submit your initials";
+    } else if (score == 1) {
+        titleEl.textContent = "Ouch. You got only " + score + " out of 4. Submit your initials";
+    } else {
+        titleEl.textContent = "You completed the quiz, but your score is " + score + ". Submit your initials";
+    }
+
+    submitButton.setAttribute("style", "height: 3%; width: 5%; font-size: 16px; justify-content: center; align-items: center; margin: 5px 0; background-color: darkblue; color: white");
+    submitButton.textContent = "Submit";
+    containerEl.appendChild(initialsTextInput);
+    containerEl.appendChild(submitButton);
 }
+
+submitButton.addEventListener("click", function () {
+    if (initialsTextInput.value == "") {
+        return alert("You didn't submit an initial. Try again");
+    }
+    localStorage.setItem("scoreInitials", JSON.stringify(initialsTextInput.value));
+    localStorage.setItem("score", JSON.stringify(score));
+    submitButton.setAttribute("style", "display: none");
+    initialsTextInput.setAttribute("style", "display: none");
+    titleEl.textContent = "Your score";
+    let table = document.createElement("table");
+    containerEl.appendChild(table);
+    scoreInitials = localStorage.getItem("scoreInitials", JSON.stringify(initialsTextInput.value))
+    scoreFinal = localStorage.getItem("score", JSON.stringify(initialsTextInput.value))
+    table.innerHTML = `<tr> <td>${scoreInitials}</td> <td>---</td> <td>${scoreFinal}</td> </tr>`;
+})
 
 function answerCorrectly() {
     // Make a green-colored feedback message saying "Correct!"
@@ -302,7 +344,7 @@ function answerCorrectly() {
     feedbackMessage.setAttribute("style", "color: green; font-size: 16px");
 
     // Remove the message after 1 second
-    setTimeout(function() {
+    setTimeout(function () {
         feedbackMessage.setAttribute("style", "display: none");
     }, 1000)
 }
@@ -315,7 +357,7 @@ function answerIncorrectly() {
     feedbackMessage.setAttribute("style", "color: red; font-size: 16px");
 
     // Remove the message after 1 second
-    setTimeout(function() {
+    setTimeout(function () {
         feedbackMessage.setAttribute("style", "display: none");
     }, 1000)
 }
